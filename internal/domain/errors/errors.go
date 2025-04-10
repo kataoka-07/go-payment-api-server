@@ -8,6 +8,7 @@ var (
 	ErrUnauthorizedUser   = errors.New("unauthorized user")
 	ErrUserNotFound       = errors.New("user not found")
 	ErrInvalidAccessToken = errors.New("invalid access token")
+	ErrInvalidPeriod      = errors.New("invalid period")
 )
 
 func Message(err error) string {
@@ -22,6 +23,8 @@ func Message(err error) string {
 		return "user not found"
 	case errors.Is(err, ErrInvalidAccessToken):
 		return "invalid access token"
+	case errors.Is(err, ErrInvalidPeriod):
+		return "invalid period"
 	default:
 		return "internal server error"
 	}

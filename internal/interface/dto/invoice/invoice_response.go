@@ -3,9 +3,11 @@ package invoice
 import (
 	"go-payment-api-server/internal/domain/model"
 	"go-payment-api-server/pkg/util"
+
+	"github.com/samber/lo"
 )
 
-type CreateInvoiceResponse struct {
+type InvoiceResponse struct {
 	ID          int64  `json:"id"`
 	CompanyID   int64  `json:"company_id"`
 	PartnerID   int64  `json:"partner_id"`
@@ -18,8 +20,8 @@ type CreateInvoiceResponse struct {
 	Status      string `json:"status"`
 }
 
-func FromModel(inv *model.Invoice) *CreateInvoiceResponse {
-	return &CreateInvoiceResponse{
+func FromModel(inv *model.Invoice) *InvoiceResponse {
+	return &InvoiceResponse{
 		ID:          inv.ID,
 		CompanyID:   inv.CompanyID,
 		PartnerID:   inv.PartnerID,
@@ -31,4 +33,10 @@ func FromModel(inv *model.Invoice) *CreateInvoiceResponse {
 		TotalAmount: inv.TotalAmount,
 		Status:      *inv.Status,
 	}
+}
+
+func FromModels(invs []*model.Invoice) []*InvoiceResponse {
+	return lo.Map(invs, func(inv *model.Invoice, _ int) *InvoiceResponse {
+		return FromModel(inv)
+	})
 }
