@@ -9,7 +9,7 @@ import (
 )
 
 func InitializeRouter() http.Handler {
-	cfg := mysql.NewConfigFromEnv()
+	cfg := mysql.NewDBConfigFromEnv()
 	db := mysql.NewDB(cfg)
 
 	// TODO: usecase/handler 初期化

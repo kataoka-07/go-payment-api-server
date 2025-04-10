@@ -18,8 +18,8 @@ func main() {
 	envPort := os.Getenv("APP_PORT")
 	port := lo.Ternary(envPort == "", "3001", envPort)
 
-	logger.Log.Info("server running")
+	logger.Log.Info("Server running")
 	if err := http.ListenAndServe(":"+port, router); err != nil {
-		logger.Log.Error("failed to start server", "server-err", err)
+		logger.Log.Error("Failed to start server", "server-err", err)
 	}
 }

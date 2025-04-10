@@ -16,3 +16,6 @@ fmt:
 # Server
 run:
 	go run ./cmd/payment-server/main.go
+
+model-gen:
+	go run ./cmd/gentool/main.go
