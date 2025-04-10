@@ -2,7 +2,7 @@ package mysql
 
 import "os"
 
-type Config struct {
+type DBConfig struct {
 	User     string
 	Password string
 	Host     string
@@ -10,8 +10,8 @@ type Config struct {
 	DBName   string
 }
 
-func NewConfigFromEnv() Config {
-	return Config{
+func NewDBConfigFromEnv() DBConfig {
+	return DBConfig{
 		User:     os.Getenv("DB_USER"),
 		Password: os.Getenv("DB_PASSWORD"),
 		Host:     os.Getenv("DB_HOST"),

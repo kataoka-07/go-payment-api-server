@@ -1,3 +1,5 @@
+SET NAMES utf8mb4;
+
 -- 企業
 CREATE TABLE companies (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -8,7 +10,7 @@ CREATE TABLE companies (
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- ユーザー (企業に紐づく)
 CREATE TABLE users (
@@ -20,7 +22,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- 取引先 (企業に紐づく)
 CREATE TABLE partners (
@@ -34,7 +36,7 @@ CREATE TABLE partners (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- 取引先銀行口座 (取引先に紐づく)
 CREATE TABLE partner_bank_accounts (
@@ -47,7 +49,7 @@ CREATE TABLE partner_bank_accounts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (partner_id) REFERENCES partners(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- 請求書データ (企業・取引先に紐づく)
 CREATE TABLE invoices (
@@ -67,4 +69,4 @@ CREATE TABLE invoices (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(id),
     FOREIGN KEY (partner_id) REFERENCES partners(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;

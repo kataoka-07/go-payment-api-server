@@ -3,7 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
-	"go-payment-api-server/pkg/logger"
+	"log/slog"
 	"time"
 
 	"github.com/samber/lo"
@@ -17,7 +17,7 @@ const (
 	retryInterval = 2 * time.Second
 )
 
-func NewDB(cfg Config) *gorm.DB {
+func NewDB(cfg DBConfig, logger *slog.Logger) *gorm.DB {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&loc=Asia%%2FTokyo",
 		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
 
@@ -47,7 +47,7 @@ func NewDB(cfg Config) *gorm.DB {
 	})
 
 	if err != nil {
-		logger.Log.Error("failed to db init", "db-instance-error", err)
+		logger.Error("Failed to db init", "db-instance-error", err)
 		lo.Must0(err)
 	}
 
@@ -55,6 +55,6 @@ func NewDB(cfg Config) *gorm.DB {
 	sqlDB.SetMaxIdleConns(5)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	logger.Log.Info("connected to database", "host", cfg.Host, "port", cfg.Port)
+	logger.Info("Connected to database", "host", cfg.Host, "port", cfg.Port)
 	return db
 }
