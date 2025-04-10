@@ -1,3 +1,5 @@
+SET NAMES utf8mb4;
+
 -- 企業
 CREATE TABLE companies (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -8,7 +10,10 @@ CREATE TABLE companies (
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+INSERT INTO companies (name, ceo_name, phone, postal_code, address)
+VALUES ('テスト株式会社', '代表 太郎', '03-1234-5678', '100-0001', '東京都千代田区1-1-1');
 
 -- ユーザー (企業に紐づく)
 CREATE TABLE users (
@@ -20,7 +25,10 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+INSERT INTO users (company_id, name, email, password)
+VALUES (1, 'テストユーザー', 'user@example.com', 'hashed-password');
 
 -- 取引先 (企業に紐づく)
 CREATE TABLE partners (
@@ -34,7 +42,10 @@ CREATE TABLE partners (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+INSERT INTO partners (company_id, name, ceo_name, phone, postal_code, address)
+VALUES (1, 'テスト取引先', '取引先 次郎', '03-9876-5432', '100-0002', '東京都港区2-2-2');
 
 -- 取引先銀行口座 (取引先に紐づく)
 CREATE TABLE partner_bank_accounts (
@@ -47,7 +58,7 @@ CREATE TABLE partner_bank_accounts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (partner_id) REFERENCES partners(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- 請求書データ (企業・取引先に紐づく)
 CREATE TABLE invoices (
@@ -67,4 +78,4 @@ CREATE TABLE invoices (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(id),
     FOREIGN KEY (partner_id) REFERENCES partners(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
