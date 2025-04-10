@@ -13,10 +13,10 @@ import (
 func main() {
 	logger.Init()
 	_ = godotenv.Load(".env")
-	router := di.InitializeRouter()
+	router := di.InitializeRouter(logger.Log)
 
 	envPort := os.Getenv("APP_PORT")
-	port := lo.Ternary(envPort == "", "3001", envPort)
+	port := lo.Ternary(envPort == "", "8000", envPort)
 
 	logger.Log.Info("Server running")
 	if err := http.ListenAndServe(":"+port, router); err != nil {

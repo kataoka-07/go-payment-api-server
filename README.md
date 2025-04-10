@@ -24,6 +24,8 @@ go-payment-api-server/
 │   └── handler/        # HTTP Handler
 ├── pkg/
 │ └── logger/           # slogベースのLogger
+├── test/
+│ └── e2e/              # E2E Test
 ├── migration/          # マイグレーション
 ├── docker-compose.yml  # DBコンテナ(Local)
 └── go.mod
@@ -50,4 +52,81 @@ make run
 
 ```bash
 make model-gen
+```
+
+## E2E Test
+
+```bash
+# 準備
+make test-db-init
+make test-schema-init
+make test-seed
+
+# 実行
+make e2e-test
+```
+
+## API仕様
+
+- [POST] api/invoices
+
+header:
+
+X-User-ID: 1
+
+Authorization: Bearer dummy-token
+
+body:
+
+```json
+{
+  "partner_id": 1,
+  "issue_date": "2025-04-15",
+  "due_date": "2025-04-25",
+  "payment_amount": 10000
+}
+```
+
+response:
+
+```json
+{
+  "id": 10,
+  "company_id": 1,
+  "partner_id": 1,
+  "issue_date": "2025-04-15",
+  "due_date": "2025-04-25",
+  "amount": 10000,
+  "fee": 400,
+  "tax": 40,
+  "total_amount": 10440,
+  "status": "pending"
+}
+```
+
+- [GET] api/invoices
+
+header:
+
+X-User-ID: 1
+
+Authorization: Bearer dummy-token
+
+response:
+
+```json
+[
+    {
+        "id": 10,
+        "company_id": 1,
+        "partner_id": 1,
+        "issue_date": "2025-04-15",
+        "due_date": "2025-04-25",
+        "amount": 10000,
+        "fee": 400,
+        "tax": 40,
+        "total_amount": 10440,
+        "status": "pending"
+    }
+]
 ```
