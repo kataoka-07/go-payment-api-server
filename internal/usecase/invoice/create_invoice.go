@@ -24,13 +24,12 @@ func NewCreateInvoiceUseCase(invoiceRepo invoicerepo.InvoiceRepository) CreateIn
 }
 
 func (u *createInvoiceUseCase) Execute(ctx context.Context, invoice *model.Invoice) (*model.Invoice, error) {
-	domainservice.CalculateAndFillAmounts(invoice)
-
 	companyID, ok := ctx.Value(contextkey.ContextKeyCompanyID).(int64)
 	if !ok {
 		return nil, ctmerrors.ErrUnauthorizedUser
 	}
 	invoice.CompanyID = companyID
+	domainservice.CalculateAndFillAmounts(invoice)
 
 	if err := u.invoiceRepo.Create(ctx, invoice); err != nil {
 		return nil, fmt.Errorf("%w: %v", errors.ErrInvoiceCreation, err)

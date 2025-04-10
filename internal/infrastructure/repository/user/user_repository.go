@@ -4,22 +4,17 @@ import (
 	"context"
 	"go-payment-api-server/internal/domain/model"
 	"go-payment-api-server/internal/domain/repository/user"
-
-	"gorm.io/gorm"
+	"go-payment-api-server/internal/infrastructure/query"
 )
 
 type userRepository struct {
-	db *gorm.DB
+	q *query.Query
 }
 
-func NewUserRepository(db *gorm.DB) user.UserRepository {
-	return &userRepository{db: db}
+func NewUserRepository(q *query.Query) user.UserRepository {
+	return &userRepository{q: q}
 }
 
 func (r *userRepository) FindByID(ctx context.Context, id int64) (*model.User, error) {
-	var u model.User
-	if err := r.db.WithContext(ctx).Where("id = ?", id).First(&u).Error; err != nil {
-		return nil, err
-	}
-	return &u, nil
+	return r.q.User.WithContext(ctx).Where(r.q.User.ID.Eq(id)).First()
 }
