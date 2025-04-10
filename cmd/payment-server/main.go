@@ -13,7 +13,7 @@ import (
 func main() {
 	logger.Init()
 	_ = godotenv.Load(".env")
-	router := di.InitializeRouter()
+	router := di.InitializeRouter(logger.Log)
 
 	envPort := os.Getenv("APP_PORT")
 	port := lo.Ternary(envPort == "", "8000", envPort)

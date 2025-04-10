@@ -24,6 +24,8 @@ go-payment-api-server/
 │   └── handler/        # HTTP Handler
 ├── pkg/
 │ └── logger/           # slogベースのLogger
+├── test/
+│ └── e2e/              # E2E Test
 ├── migration/          # マイグレーション
 ├── docker-compose.yml  # DBコンテナ(Local)
 └── go.mod
@@ -50,4 +52,16 @@ make run
 
 ```bash
 make model-gen
+```
+
+## E2E Test
+
+```bash
+# 準備
+make test-db-init
+make test-schema-init
+make test-seed
+
+# 実行
+make e2e-test
 ```

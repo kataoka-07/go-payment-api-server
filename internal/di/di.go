@@ -7,14 +7,21 @@ import (
 	invoicehdl "go-payment-api-server/internal/interface/handler/invoice"
 	"go-payment-api-server/internal/interface/middleware"
 	invoiceuc "go-payment-api-server/internal/usecase/invoice"
+	"log/slog"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/go-chi/chi"
 )
 
-func InitializeRouter() http.Handler {
+func InitializeRouter(logger *slog.Logger) http.Handler {
 	cfg := mysql.NewDBConfigFromEnv()
-	db := mysql.NewDB(cfg)
+	if strings.ToLower(os.Getenv("TEST_MODE")) == "true" {
+		cfg.DBName = cfg.DBName + "_test"
+	}
+
+	db := mysql.NewDB(cfg, logger)
 
 	r := chi.NewRouter()
 
